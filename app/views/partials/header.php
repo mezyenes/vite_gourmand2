@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Vite Gourmand</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- ✅ important mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
@@ -20,12 +20,11 @@ if (session_status() === PHP_SESSION_NONE) {
     <!-- Logo -->
     <a class="navbar-brand fw-bold" href="index.php">🍔 Vite Gourmand</a>
 
-    <!-- ✅ BOUTON BURGER MOBILE -->
+    <!-- Burger mobile -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- MENU -->
     <div class="collapse navbar-collapse" id="navbarContent">
 
         <!-- GAUCHE -->
@@ -33,9 +32,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
             <li class="nav-item">
                 <a class="nav-link" href="index.php?page=menu">Menu</a>
-                <li class="nav-item">
-    <a class="nav-link" href="index.php?page=contact">Contact</a>
-</li>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?page=contact">Contact</a>
             </li>
 
             <?php if (isset($_SESSION['user'])): ?>
@@ -72,6 +72,13 @@ if (session_status() === PHP_SESSION_NONE) {
                     <li class="nav-item">
                         <a class="nav-link text-info fw-bold" href="index.php?page=adminUsers">
                             ⚙️ Admin
+                        </a>
+                    </li>
+
+                // boutton des stats 
+                    <li class="nav-item">
+                        <a class="nav-link text-success fw-bold" href="index.php?page=adminStats">
+                            📊 Statistiques
                         </a>
                     </li>
                 <?php endif; ?>

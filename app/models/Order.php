@@ -8,7 +8,7 @@ class Order {
         $this->pdo = $pdo;
     }
 
-    // ➕ créer commande
+    //  créer commande
     public function create($user_id, $menu_id, $adresse, $livraison_time, $delivery_price) {
 
         $sql = "INSERT INTO orders (user_id, menu_id, adresse, livraison_time, delivery_price, status) 
@@ -18,7 +18,7 @@ class Order {
         return $stmt->execute([$user_id, $menu_id, $adresse, $livraison_time, $delivery_price]);
     }
 
-    // 👤 commandes user
+    //  commandes des users 
     public function getUserOrders($user_id) {
 
         $sql = "SELECT orders.*, menus.name, menus.price 
@@ -33,7 +33,7 @@ class Order {
         return $stmt->fetchAll();
     }
 
-    // 🧑‍💼 commandes employé avec filtre
+    //  commandes employé avec filtre
     public function getAllOrders($status = null) {
 
         if ($status && $status !== 'all') {
@@ -62,7 +62,7 @@ class Order {
         }
     }
 
-    // 🔄 changer statut
+    //  changer statut avec le crud update toujours
     public function updateStatus($id, $status) {
 
         $sql = "UPDATE orders 
@@ -74,7 +74,7 @@ class Order {
         return $stmt->execute([$status, $id]);
     }
 
-    // ❌ annuler avec raison
+    // annuler avec raison
     public function cancelWithReason($id, $reason) {
 
         $sql = "UPDATE orders 

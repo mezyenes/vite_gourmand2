@@ -18,7 +18,7 @@ class Review {
         return $stmt->execute([$order_id, $user_id, $rating, $comment]);
     }
 
-    // 🔍 avis en attente (employé)
+    //  avis en attente (employe)
     public function getPending() {
 
         $sql = "SELECT reviews.*, users.email, menus.name
@@ -32,19 +32,19 @@ class Review {
         return $this->pdo->query($sql)->fetchAll();
     }
 
-    // ✅ valider
+    //  valider avec approve
     public function approve($id) {
         $stmt = $this->pdo->prepare("UPDATE reviews SET status = 'approved' WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
-    // ❌ refuser
+    // refuser lavisavec la function reject
     public function reject($id) {
         $stmt = $this->pdo->prepare("UPDATE reviews SET status = 'rejected' WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
-    // 🌍 avis visibles
+    // avis visibles 
     public function getApproved() {
 
         $sql = "SELECT reviews.*, menus.name

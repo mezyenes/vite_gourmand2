@@ -13,7 +13,7 @@ class AdminController {
         $this->menuModel = new Menu($pdo);
     }
 
-    // 🔐 sécurité globale
+    //  sécurité globale
     private function checkAdmin() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -25,20 +25,20 @@ class AdminController {
         }
     }
 
-    // 👥 PAGE ADMIN
+    //  PAGE ADMIN pour gerer tousles users du site 
     public function users() {
 
         $this->checkAdmin();
 
         $users = $this->userModel->getAllUsers();
 
-        // 🔥 IMPORTANT → SINON BUG
+        
         $menus = $this->menuModel->getAll();
 
         require __DIR__ . '/../views/admin_users.php';
     }
 
-    // 🔁 activer / désactiver user
+    //  activer / désactiver user
     public function toggleUser() {
 
         $this->checkAdmin();
@@ -50,7 +50,7 @@ class AdminController {
         header('Location: index.php?page=adminUsers');
     }
 
-    // ➕ créer employé
+    //  créer employé
     public function createEmployee() {
 
         $this->checkAdmin();
@@ -65,7 +65,7 @@ class AdminController {
         header('Location: index.php?page=adminUsers&success=1');
     }
 
-    // 🍔 ➕ créer menu
+    //  créer menu
     public function createMenu() {
 
         $this->checkAdmin();
@@ -81,7 +81,7 @@ class AdminController {
         header('Location: index.php?page=adminUsers');
     }
 
-    // ❌ supprimer menu
+    //  supprimer menu
     public function deleteMenu() {
 
         $this->checkAdmin();
@@ -91,7 +91,7 @@ class AdminController {
         header('Location: index.php?page=adminUsers');
     }
 
-    // ✏ afficher form modif
+    // afficher formulaire de modif
     public function editMenu() {
 
         $this->checkAdmin();
@@ -101,7 +101,7 @@ class AdminController {
         require __DIR__ . '/../views/edit_menu.php';
     }
 
-    // 💾 update menu
+    // update menu
     public function updateMenu() {
 
         $this->checkAdmin();
@@ -117,4 +117,37 @@ class AdminController {
 
         header('Location: index.php?page=adminUsers');
     }
+
+
+
+
+public function testMongo() {
+
+    require_once __DIR__ . '/../models/OrderModel.php';
+
+    $data = OrderModel::getOrdersByMenu();
+
+    echo "<pre>";
+    print_r($data);
+}
+
+
+public function stats() {
+
+    $this->checkAdmin(); // sécurité admin
+
+    require_once __DIR__ . '/../models/OrderModel.php';
+
+    $ordersData = OrderModel::getOrdersByMenu();
+    $revenueData = OrderModel::getRevenueByMenu();
+
+    require __DIR__ . '/../views/admin_stats.php';
+}
+
+
+
+
+
+
+
 }

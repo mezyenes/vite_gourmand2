@@ -8,9 +8,12 @@ class OrderController {
 
     public function __construct($pdo) {
         $this->orderModel = new Order($pdo);
+
+        
+        $GLOBALS['pdo'] = $pdo;
     }
 
-    // ✅ Créer une commande
+    //  Créer une commande avec la function create
     public function create() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -24,15 +27,15 @@ class OrderController {
 
         $user_id = $_SESSION['user']['id'];
 
-        // POST (tes noms gardés)
+      
         $menu_id = $_POST['menu_id'];
         $adresse = $_POST['adresse'];
         $livraison_time = str_replace('T', ' ', $_POST['livraison_time']);
 
-        // ✅ NOUVEAU : distance
+        
         $distance = (float) ($_POST['distance'] ?? 0);
 
-        // ✅ NOUVEAU : calcul livraison
+   
         $delivery_price = 0;
 
         if (stripos($adresse, 'bordeaux') === false) {
@@ -41,14 +44,43 @@ class OrderController {
 
         $delivery_price = round($delivery_price, 2);
 
-        // ⚠️ IMPORTANT : on envoie aussi delivery_price
+    
+
         $this->orderModel->create($user_id, $menu_id, $adresse, $livraison_time, $delivery_price);
+
+
+      
+
+        
+      
+
+        require_once __DIR__ . '/../../config/DatabaseMongo.php';
+        require_once __DIR__ . '/../models/Menu.php';
+
+        //  récupérer menu depuis MySQL 
+        $menuModel = new Menu($GLOBALS['pdo']);
+        $menu = $menuModel->getById($menu_id);
+
+        // sécurité
+        if ($menu) {
+
+            $dbMongo = DatabaseMongo::connect();
+
+            $dbMongo->orders->insertOne([
+                'menu_name' => $menu['name'], 
+                'price' => (float)$menu['price'],
+                'quantity' => 1,
+                'total' => (float)$menu['price']
+            ]);
+        }
+
+      
 
         header('Location: index.php?page=menu&order=success');
         exit;
     }
 
-    // ✅ Formulaire commande
+    // Formulaire form pour commander
     public function form() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -65,7 +97,7 @@ class OrderController {
         require __DIR__ . '/../views/order_form.php';
     }
 
-    // ✅ Mes commandes
+    // Mes commandes
     public function myOrders() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -84,7 +116,7 @@ class OrderController {
         require __DIR__ . '/../views/my_orders.php';
     }
 
-    // ✅ Annuler commande (USER + EMPLOYÉ)
+    //  Annuler commande
     public function cancel() {
 
         if (session_status() === PHP_SESSION_NONE) {

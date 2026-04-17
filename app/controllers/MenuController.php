@@ -10,7 +10,7 @@ class MenuController {
         $this->menuModel = new Menu($pdo);
     }
 
-    // 📋 afficher tous les menus
+    //  afficher tous les menus
     public function index() {
 
         $menus = $this->menuModel->getAll();
@@ -18,7 +18,7 @@ class MenuController {
         require __DIR__ . '/../views/menu.php';
     }
 
-    // 🔍 afficher détail d’un menu
+    //  afficher détail d’un menu avec la funcion show 
     public function show() {
 
         $id = $_GET['id'];

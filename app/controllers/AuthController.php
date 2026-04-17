@@ -10,12 +10,12 @@ class AuthController {
         $this->userModel = new User($pdo);
     }
 
-    // 👉 PAGE LOGIN
+    //  PAGE LOGIN pour se connecter au site 
     public function login() {
         require __DIR__ . '/../views/auth/login.php';
     }
 
-    // 👉 TRAITEMENT LOGIN
+    //  TRAITEMENT LOGIN
     public function loginPost() {
 
         $email = $_POST['email'];
@@ -33,12 +33,12 @@ class AuthController {
         }
     }
 
-    // 👉 PAGE REGISTER
+    //  PAGE REGISTER pour inscription dans le site 
     public function register() {
         require __DIR__ . '/../views/auth/register.php';
     }
 
-    // 👉 TRAITEMENT REGISTER
+    //  TRAITEMENT REGISTER
     public function registerPost() {
 
         $nom = $_POST['nom'];

@@ -1,5 +1,11 @@
 <?php
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+
+
 session_start();
 
 require '../config/database.php';
@@ -40,7 +46,7 @@ switch ($page) {
         (new OrderController($pdo))->create();
         break;
 
-    // 👤 utilisateur
+    //  utilisateur
     case 'myOrders':
         (new OrderController($pdo))->myOrders();
         break;
@@ -49,7 +55,7 @@ switch ($page) {
         (new OrderController($pdo))->cancel();
         break;
 
-    // 👨‍🍳 employé (horaires)
+    //  employé (horaires)
     case 'editHours':
         (new EmployeeController($pdo))->editHours();
         break;
@@ -58,7 +64,7 @@ switch ($page) {
         (new EmployeeController($pdo))->updateHours();
         break;
 
-    // 👨‍🍳 employé commandes
+    //  employé commandes
     case 'employeeOrders':
         (new EmployeeController($pdo))->orders();
         break;
@@ -71,7 +77,7 @@ switch ($page) {
         (new EmployeeController($pdo))->cancel();
         break;
 
-    // 🔐 auth
+    // auth
     case 'login':
         (new AuthController($pdo))->login();
         break;
@@ -100,7 +106,7 @@ switch ($page) {
         (new AuthController($pdo))->logout();
         break;
 
-    // 👑 admin
+    //  admin
     case 'adminUsers':
         (new AdminController($pdo))->users();
         break;
@@ -129,7 +135,7 @@ switch ($page) {
         (new AdminController($pdo))->updateMenu();
         break;
 
-    // ⭐ avis
+    //  avis
     case 'reviewForm':
         (new ReviewController($pdo))->form();
         break;
@@ -152,9 +158,28 @@ switch ($page) {
 
 
 
-        case 'contact':
+    case 'contact':
     require __DIR__ . '/../app/views/contact.php';
     break;
+
+    case 'adminStats':
+         (new AdminController($pdo))->stats();
+    break;
+
+    //condition du site 
+    case 'cgv':
+         include __DIR__ . '/../app/views/cgv.php';
+    break;
+
+    case 'mentions':
+          include __DIR__ . '/../app/views/mentions.php';
+    break;
+
+    case 'privacy':
+          include __DIR__ . '/../app/views/privacy.php';
+    break;
+
+
 
     default:
         echo "404 - Page non trouvée";

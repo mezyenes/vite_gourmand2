@@ -10,7 +10,7 @@ class ReviewController {
         $this->reviewModel = new Review($pdo);
     }
 
-    // 📋 formulaire
+    //  formulaire pour les avis 
     public function form() {
 
         
@@ -25,7 +25,7 @@ class ReviewController {
         require __DIR__ . '/../views/review_form.php';
     }
 
-    // ➕ enregistrer
+    //  enregistrer
     public function create() {
 
         
@@ -40,7 +40,7 @@ class ReviewController {
         header('Location: index.php?page=myOrders');
     }
 
-    // 🧑‍💼 employé voit avis
+    //  recuperer lavis pour le valider ou le supprimer 
     public function admin() {
 
         

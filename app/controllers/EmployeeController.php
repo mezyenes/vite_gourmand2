@@ -52,13 +52,13 @@ class EmployeeController {
             session_start();
         }
 
-        // 🔒 sécurité
+        //  sécurité pour checker la session que pour l employer 
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'employe') {
             header('Location: index.php?page=login');
             exit;
         }
 
-        // ✅ vérification POST
+        //  vérification POST
         if (!isset($_POST['opening_time'], $_POST['closing_time'])) {
             die("Erreur : données manquantes");
         }

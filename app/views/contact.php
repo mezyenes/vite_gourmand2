@@ -11,7 +11,7 @@
             <h4>📍 Nos informations</h4>
 
             <p><strong>Adresse :</strong> 12 rue de Bordeaux, 33000 Bordeaux</p>
-            <p><strong>Téléphone :</strong> 06 12 34 56 78</p>
+            <p><strong>Téléphone :</strong> 06 29 15 30 39</p>
             <p><strong>Email :</strong> contact@vitegourmand.fr</p>
 
         </div>

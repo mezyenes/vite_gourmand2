@@ -1,0 +1,11 @@
+{
+    "name": "33629/vite",
+    "autoload": {
+        "psr-4": {
+            "33629\\Vite\\": "src/"
+        }
+    },
+    "require": {
+        "mongodb/mongodb": "^1.16"
+    }
+}

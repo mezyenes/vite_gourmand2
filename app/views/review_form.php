@@ -8,7 +8,7 @@
 
         <input type="hidden" name="order_id" value="<?= $_GET['order_id'] ?>">
 
-        <!-- NOTE -->
+        
         <div class="mb-3">
             <label>Note (1 à 5)</label>
             <select name="rating" class="form-control" required>
@@ -21,7 +21,7 @@
             </select>
         </div>
 
-        <!-- COMMENTAIRE -->
+       
         <div class="mb-3">
             <label>Commentaire</label>
             <textarea name="comment" class="form-control" rows="4" required></textarea>

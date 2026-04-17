@@ -17,7 +17,7 @@ class HomeController {
 
         $hours = $this->settingModel->getHours();
 
-        // ✅ récupérer les avis VALIDÉS
+        //  récupérer les avis VALIDÉS
         $reviews = $this->reviewModel->getApproved();
 
         require __DIR__ . '/../views/home.php';

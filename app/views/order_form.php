@@ -10,28 +10,27 @@
 
                 <form method="POST" action="index.php?page=orderCreate">
 
-                    <!-- menu id caché -->
+                  
                     <input type="hidden" name="menu_id" value="<?= $menu_id ?>">
 
-                    <!-- adresse -->
+                  
                     <div class="mb-3">
                         <label class="form-label">Adresse de livraison</label>
                         <textarea name="adresse" class="form-control" rows="3" required></textarea>
                     </div>
 
-                    <!-- heure -->
+                   
                     <div class="mb-3">
                         <label class="form-label">Heure de livraison</label>
                         <input type="datetime-local" name="livraison_time" class="form-control" required>
                     </div>
 
-                    <!-- distance (AJOUT SANS CASSER) -->
                     <div class="mb-3">
                         <label class="form-label">Distance (km)</label>
                         <input type="number" step="0.1" name="distance" class="form-control" required>
                     </div>
 
-                    <!-- bouton -->
+                   
                     <div class="d-grid">
                         <button class="btn btn-success">
                             ✅ Confirmer la commande

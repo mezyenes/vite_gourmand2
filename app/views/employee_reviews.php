@@ -1,37 +1,49 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-<h2>⭐ Avis clients (à valider)</h2>
+<div class="d-flex flex-column min-vh-100">
 
-<?php foreach ($reviews as $review): ?>
+    <div class="container flex-grow-1">
 
-<div class="card mb-3 p-3 shadow-sm">
+        <h2 class="mt-4">⭐ Avis clients (à valider)</h2>
 
-    <h5>🍔 <?= htmlspecialchars($review['name']) ?></h5>
+        <div class="mt-4">
 
-    <p>📧 <?= htmlspecialchars($review['email']) ?></p>
+        <?php foreach ($reviews as $review): ?>
 
-    <p>
-        Note :
-        <strong><?= str_repeat('⭐', $review['rating']) ?></strong>
-    </p>
+        <div class="card mb-3 p-3 shadow-sm">
 
-    <p>
-        💬 <?= htmlspecialchars($review['comment']) ?>
-    </p>
+            <h5>🍔 <?= htmlspecialchars($review['name']) ?></h5>
 
-    <!-- ACTIONS -->
-    <a href="index.php?page=approveReview&id=<?= $review['id'] ?>" 
-       class="btn btn-success btn-sm">
-        ✅ Valider
-    </a>
+            <p>📧 <?= htmlspecialchars($review['email']) ?></p>
 
-    <a href="index.php?page=rejectReview&id=<?= $review['id'] ?>" 
-       class="btn btn-danger btn-sm">
-        ❌ Refuser
-    </a>
+            <p>
+                Note :
+                <strong><?= str_repeat('⭐', $review['rating']) ?></strong>
+            </p>
+
+            <p>
+                💬 <?= htmlspecialchars($review['comment']) ?>
+            </p>
+
+            <!-- ACTIONS -->
+            <a href="index.php?page=approveReview&id=<?= $review['id'] ?>" 
+               class="btn btn-success btn-sm">
+                ✅ Valider
+            </a>
+
+            <a href="index.php?page=rejectReview&id=<?= $review['id'] ?>" 
+               class="btn btn-danger btn-sm">
+                ❌ Refuser
+            </a>
+
+        </div>
+
+        <?php endforeach; ?>
+
+        </div>
+
+    </div>
+
+    <?php include __DIR__ . '/partials/footer.php'; ?>
 
 </div>
-
-<?php endforeach; ?>
-
-<?php include __DIR__ . '/partials/footer.php'; ?>
