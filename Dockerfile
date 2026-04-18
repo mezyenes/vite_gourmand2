@@ -1,16 +1,16 @@
 FROM php:8.2-apache
 
-# Activer mod rewrite (MVC routes)
 RUN a2enmod rewrite
 
-# Installer extensions MySQL
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copier ton projet dans Apache
+# IMPORTANT : on pointe vers public (pas root)
 COPY . /var/www/html/
+
+# Apache root = public
+RUN sed -i 's/DocumentRoot \/var\/www\/html/DocumentRoot \/var\/www\/html\/public/g' /etc/apache2/sites-available/000-default.conf
 
 # Autoriser .htaccess
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
 
-# Port du serveur
 EXPOSE 80
