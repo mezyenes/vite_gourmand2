@@ -46,7 +46,7 @@ switch ($page) {
         (new OrderController($pdo))->create();
         break;
 
-    //  utilisateur
+   
     case 'myOrders':
         (new OrderController($pdo))->myOrders();
         break;
@@ -55,7 +55,7 @@ switch ($page) {
         (new OrderController($pdo))->cancel();
         break;
 
-    //  employé (horaires)
+    
     case 'editHours':
         (new EmployeeController($pdo))->editHours();
         break;
@@ -64,7 +64,7 @@ switch ($page) {
         (new EmployeeController($pdo))->updateHours();
         break;
 
-    //  employé commandes
+   
     case 'employeeOrders':
         (new EmployeeController($pdo))->orders();
         break;
@@ -77,7 +77,7 @@ switch ($page) {
         (new EmployeeController($pdo))->cancel();
         break;
 
-    // auth
+    
     case 'login':
         (new AuthController($pdo))->login();
         break;
@@ -106,7 +106,7 @@ switch ($page) {
         (new AuthController($pdo))->logout();
         break;
 
-    //  admin
+    
     case 'adminUsers':
         (new AdminController($pdo))->users();
         break;
@@ -135,7 +135,7 @@ switch ($page) {
         (new AdminController($pdo))->updateMenu();
         break;
 
-    //  avis
+    
     case 'reviewForm':
         (new ReviewController($pdo))->form();
         break;
@@ -166,7 +166,7 @@ switch ($page) {
          (new AdminController($pdo))->stats();
     break;
 
-    //condition du site 
+ 
     case 'cgv':
          include __DIR__ . '/../app/views/cgv.php';
     break;
