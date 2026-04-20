@@ -6,6 +6,8 @@
         }
     },
     "require": {
+        "php": "^8.0",
+        "ext-mongodb": "*",
         "mongodb/mongodb": "^1.16"
     }
 }
