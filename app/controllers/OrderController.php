@@ -8,12 +8,10 @@ class OrderController {
 
     public function __construct($pdo) {
         $this->orderModel = new Order($pdo);
-
-        
         $GLOBALS['pdo'] = $pdo;
     }
 
-    //  Créer une commande avec la function create
+    // ✅ Créer une commande
     public function create() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -27,15 +25,21 @@ class OrderController {
 
         $user_id = $_SESSION['user']['id'];
 
-      
-        $menu_id = $_POST['menu_id'];
-        $adresse = $_POST['adresse'];
-        $livraison_time = str_replace('T', ' ', $_POST['livraison_time']);
-
-        
+        // ✅ Sécurisation des données POST
+        $menu_id = $_POST['menu_id'] ?? null;
+        $adresse = $_POST['adresse'] ?? null;
+        $livraison_time = $_POST['livraison_time'] ?? null;
         $distance = (float) ($_POST['distance'] ?? 0);
 
-   
+        // ✅ Vérification
+        if (!$menu_id || !$adresse || !$livraison_time) {
+            die("Erreur : données manquantes");
+        }
+
+        // ✅ Format PostgreSQL
+        $livraison_time = str_replace('T', ' ', $livraison_time);
+
+        // ✅ Calcul livraison
         $delivery_price = 0;
 
         if (stripos($adresse, 'bordeaux') === false) {
@@ -44,43 +48,32 @@ class OrderController {
 
         $delivery_price = round($delivery_price, 2);
 
-    
-
+        // ✅ Enregistrement SQL
         $this->orderModel->create($user_id, $menu_id, $adresse, $livraison_time, $delivery_price);
 
-
-      
-
-        
-      
-
+        // ✅ MongoDB (optionnel)
         require_once __DIR__ . '/../../config/DatabaseMongo.php';
         require_once __DIR__ . '/../models/Menu.php';
 
-        //  récupérer menu depuis MySQL 
         $menuModel = new Menu($GLOBALS['pdo']);
         $menu = $menuModel->getById($menu_id);
 
-        // sécurité
         if ($menu) {
-
             $dbMongo = DatabaseMongo::connect();
 
             $dbMongo->orders->insertOne([
-                'menu_name' => $menu['name'], 
+                'menu_name' => $menu['name'],
                 'price' => (float)$menu['price'],
                 'quantity' => 1,
                 'total' => (float)$menu['price']
             ]);
         }
 
-      
-
         header('Location: index.php?page=menu&order=success');
         exit;
     }
 
-    // Formulaire form pour commander
+    // ✅ Formulaire
     public function form() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -92,12 +85,16 @@ class OrderController {
             exit;
         }
 
-        $menu_id = $_GET['menu_id'];
+        $menu_id = $_GET['menu_id'] ?? null;
+
+        if (!$menu_id) {
+            die("Menu introuvable");
+        }
 
         require __DIR__ . '/../views/order_form.php';
     }
 
-    // Mes commandes
+    // ✅ Mes commandes
     public function myOrders() {
 
         if (session_status() === PHP_SESSION_NONE) {
@@ -116,7 +113,7 @@ class OrderController {
         require __DIR__ . '/../views/my_orders.php';
     }
 
-    //  Annuler commande
+    // ✅ Annuler commande
     public function cancel() {
 
         if (session_status() === PHP_SESSION_NONE) {

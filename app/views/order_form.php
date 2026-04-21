@@ -10,27 +10,28 @@
 
                 <form method="POST" action="index.php?page=orderCreate">
 
-                  
-                    <input type="hidden" name="menu_id" value="<?= $menu_id ?>">
+                    <!-- ✅ menu_id sécurisé -->
+                    <input type="hidden" name="menu_id" value="<?= htmlspecialchars($menu_id ?? '') ?>">
 
-                  
+                    <!-- Adresse -->
                     <div class="mb-3">
                         <label class="form-label">Adresse de livraison</label>
                         <textarea name="adresse" class="form-control" rows="3" required></textarea>
                     </div>
 
-                   
+                    <!-- Heure -->
                     <div class="mb-3">
                         <label class="form-label">Heure de livraison</label>
                         <input type="datetime-local" name="livraison_time" class="form-control" required>
                     </div>
 
+                    <!-- Distance -->
                     <div class="mb-3">
                         <label class="form-label">Distance (km)</label>
                         <input type="number" step="0.1" name="distance" class="form-control" required>
                     </div>
 
-                   
+                    <!-- Submit -->
                     <div class="d-grid">
                         <button class="btn btn-success">
                             ✅ Confirmer la commande

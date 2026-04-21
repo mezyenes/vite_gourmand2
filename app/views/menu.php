@@ -10,7 +10,7 @@
         <div class="card mb-4 shadow-sm h-100">
 
             <?php if (!empty($menu['image'])): ?>
-                <img src="images/<?= htmlspecialchars($menu['image']) ?>" 
+                <img src="public/images/<?= htmlspecialchars($menu['image']) ?>" 
                      class="card-img-top" 
                      alt="<?= htmlspecialchars($menu['name']) ?>">
             <?php endif; ?>
@@ -27,11 +27,21 @@
                     <?= $menu['price'] ?> €
                 </p>
 
-                <div class="mt-auto">
+                <!-- ✅ BOUTONS CORRIGÉS -->
+                <div class="mt-auto d-grid gap-2">
+
+                    <!-- Voir détails -->
                     <a href="index.php?page=menuShow&id=<?= $menu['id'] ?>" 
-                       class="btn btn-primary w-100">
+                       class="btn btn-primary">
                         🔍 Voir détails
                     </a>
+
+                    <!-- Commander -->
+                    <a href="index.php?page=orderForm&menu_id=<?= $menu['id'] ?>" 
+                       class="btn btn-success">
+                        🛒 Commander
+                    </a>
+
                 </div>
 
             </div>
