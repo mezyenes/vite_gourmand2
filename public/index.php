@@ -1,2 +1,2 @@
 <?php
-echo "HEROKU OK";
+echo "OK INDEX CHARGE";
