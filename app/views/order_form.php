@@ -1,5 +1,7 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
+<?php if (empty($menu_id)) die("menu_id manquant"); ?>
+
 <div class="row justify-content-center">
     <div class="col-md-6">
 
@@ -8,41 +10,43 @@
 
                 <h3 class="text-center mb-4">🛒 Finaliser votre commande</h3>
 
-                <form method="POST" action="index.php?page=orderCreate">
+                <!-- IMPORTANT FIX ROUTING -->
+                <form method="POST" action="index.php">
 
-                    <!-- ✅ menu_id sécurisé -->
-                    <input type="hidden" name="menu_id" value="<?= htmlspecialchars($menu_id ?? '') ?>">
+                    <!-- ROUTE -->
+                    <input type="hidden" name="page" value="orderCreate">
 
-                    <!-- Adresse -->
+                    <!-- MENU ID -->
+                    <input type="hidden" name="menu_id" value="<?= htmlspecialchars($menu_id) ?>">
+
+                    <!-- ADRESSE -->
                     <div class="mb-3">
-                        <label class="form-label">Adresse de livraison</label>
-                        <textarea name="adresse" class="form-control" rows="3" required></textarea>
+                        <label>Adresse de livraison</label>
+                        <textarea name="adresse" class="form-control" required></textarea>
                     </div>
 
-                    <!-- Heure -->
+                    <!-- HEURE -->
                     <div class="mb-3">
-                        <label class="form-label">Heure de livraison</label>
+                        <label>Heure de livraison</label>
                         <input type="datetime-local" name="livraison_time" class="form-control" required>
                     </div>
 
-                    <!-- Distance -->
+                    <!-- DISTANCE -->
                     <div class="mb-3">
-                        <label class="form-label">Distance (km)</label>
+                        <label>Distance (km)</label>
                         <input type="number" step="0.1" name="distance" class="form-control" required>
                     </div>
 
-                    <!-- Submit -->
-                    <div class="d-grid">
-                        <button class="btn btn-success">
-                            ✅ Confirmer la commande
-                        </button>
-                    </div>
+                    <!-- SUBMIT -->
+                    <button type="submit" class="btn btn-success w-100">
+                        Commander
+                    </button>
 
                 </form>
 
                 <div class="text-center mt-3">
                     <a href="index.php?page=menu" class="btn btn-secondary">
-                        ⬅ Retour au menu
+                        Retour
                     </a>
                 </div>
 

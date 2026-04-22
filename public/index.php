@@ -42,8 +42,14 @@ try {
             (new MenuController($pdo))->show();
             break;
 
+        // =========================
+        // ORDER FIX IMPORTANT ICI
+        // =========================
         case 'order':
         case 'orderForm':
+            (new OrderController($pdo))->form();
+            break;
+
         case 'orderCreate':
             (new OrderController($pdo))->create();
             break;
