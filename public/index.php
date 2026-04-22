@@ -20,6 +20,7 @@ require __DIR__ . '/../app/controllers/OrderController.php';
 require __DIR__ . '/../app/controllers/AdminController.php';
 require __DIR__ . '/../app/controllers/EmployeeController.php';
 require __DIR__ . '/../app/controllers/ReviewController.php';
+require __DIR__ . '/../app/controllers/TestController.php';
 
 /**
  * Router simple
