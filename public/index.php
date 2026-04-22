@@ -178,6 +178,12 @@ try {
             include __DIR__ . '/../app/views/privacy.php';
             break;
 
+
+
+            case 'mongoTest':
+    (new TestController())->mongo();
+    break;
+
         default:
             http_response_code(404);
             echo "404 - Page non trouvée";
