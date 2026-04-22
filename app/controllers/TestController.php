@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../models/DatabaseMongo.php';
+require_once __DIR__ . '/../../models/DatabaseMongo.php';
 
 class TestController {
 
