@@ -1,59 +1,74 @@
 <?php include __DIR__ . '/partials/header.php'; ?>
 
-<?php if (empty($menu_id)) die("menu_id manquant"); ?>
+<div class="d-flex flex-column min-vh-100">
 
-<div class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="container flex-grow-1">
 
-        <div class="card shadow">
-            <div class="card-body">
+        <!-- ✅ MESSAGE SUCCESS -->
+        <?php if (isset($_GET['success'])): ?>
+            <div class="alert alert-success text-center mt-4">
+                🎉 Votre commande a été enregistrée avec succès !
+            </div>
+        <?php endif; ?>
 
-                <h3 class="text-center mb-4">🛒 Finaliser votre commande</h3>
+        <div class="row justify-content-center mt-4">
 
-                <!-- IMPORTANT FIX ROUTING -->
-                <form method="POST" action="index.php">
+            <div class="col-md-6">
 
-                    <!-- ROUTE -->
-                    <input type="hidden" name="page" value="orderCreate">
+                <div class="card shadow">
 
-                    <!-- MENU ID -->
-                    <input type="hidden" name="menu_id" value="<?= htmlspecialchars($menu_id) ?>">
+                    <div class="card-body">
 
-                    <!-- ADRESSE -->
-                    <div class="mb-3">
-                        <label>Adresse de livraison</label>
-                        <textarea name="adresse" class="form-control" required></textarea>
+                        <h3 class="text-center mb-4">🛒 Finaliser votre commande</h3>
+
+                        <form method="POST" action="index.php?page=orderCreate">
+
+                            <!-- menu_id sécurisé -->
+                            <input type="hidden" name="menu_id" value="<?= htmlspecialchars($menu_id ?? '') ?>">
+
+                            <!-- Adresse -->
+                            <div class="mb-3">
+                                <label class="form-label">Adresse de livraison</label>
+                                <textarea name="adresse" class="form-control" rows="3" required></textarea>
+                            </div>
+
+                            <!-- Heure -->
+                            <div class="mb-3">
+                                <label class="form-label">Heure de livraison</label>
+                                <input type="datetime-local" name="livraison_time" class="form-control" required>
+                            </div>
+
+                            <!-- Distance -->
+                            <div class="mb-3">
+                                <label class="form-label">Distance (km)</label>
+                                <input type="number" step="0.1" name="distance" class="form-control" required>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success">
+                                    ✅ Confirmer la commande
+                                </button>
+                            </div>
+
+                        </form>
+
+                        <div class="text-center mt-3">
+                            <a href="index.php?page=menu" class="btn btn-secondary">
+                                ⬅ Retour au menu
+                            </a>
+                        </div>
+
                     </div>
 
-                    <!-- HEURE -->
-                    <div class="mb-3">
-                        <label>Heure de livraison</label>
-                        <input type="datetime-local" name="livraison_time" class="form-control" required>
-                    </div>
-
-                    <!-- DISTANCE -->
-                    <div class="mb-3">
-                        <label>Distance (km)</label>
-                        <input type="number" step="0.1" name="distance" class="form-control" required>
-                    </div>
-
-                    <!-- SUBMIT -->
-                    <button type="submit" class="btn btn-success w-100">
-                        Commander
-                    </button>
-
-                </form>
-
-                <div class="text-center mt-3">
-                    <a href="index.php?page=menu" class="btn btn-secondary">
-                        Retour
-                    </a>
                 </div>
 
             </div>
+
         </div>
 
     </div>
-</div>
 
-<?php include __DIR__ . '/partials/footer.php'; ?>
+    <?php include __DIR__ . '/partials/footer.php'; ?>
+
+</div>
