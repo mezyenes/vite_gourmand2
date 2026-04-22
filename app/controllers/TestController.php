@@ -1,7 +1,8 @@
 <?php
 
 
-require_once __DIR__ . '/../config/DatabaseMongo.php';
+
+require_once __DIR__ . '/../../config/DatabaseMongo.php';
 
 class TestController {
 
