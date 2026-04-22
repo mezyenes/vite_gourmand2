@@ -62,7 +62,7 @@ public function createEmployee($nom, $prenom, $email, $password) {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     $sql = "INSERT INTO users (nom, prenom, email, password, role, active) 
-            VALUES (?, ?, ?, ?, 'employe', 1)";
+            VALUES (?, ?, ?, ?, 'employe', true)";
 
     $stmt = $this->pdo->prepare($sql);
     return $stmt->execute([$nom, $prenom, $email, $password]);
