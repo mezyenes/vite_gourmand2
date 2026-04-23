@@ -16,7 +16,7 @@ class OrderModel {
                 '$group' => [
                     '_id' => '$menu_name',
                     
-                    // 🟢 total commandes (sécurisé)
+                    // 🟢total commandes (sécurisé)
                     'total_orders' => [
                         '$sum' => [
                             '$ifNull' => ['$quantity', 1]
@@ -44,14 +44,14 @@ class OrderModel {
                 '$group' => [
                     '_id' => '$menu_name',
 
-                    // 🟢 total revenu propre
+                   
                     'total_revenue' => [
                         '$sum' => [
                             '$ifNull' => ['$total', 0]
                         ]
                     ],
 
-                    // 🟢 bonus utile dashboard
+                    
                     'total_delivery' => [
                         '$sum' => [
                             '$ifNull' => ['$delivery_price', 0]

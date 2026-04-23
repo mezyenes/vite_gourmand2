@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../models/Order.php';
 
-// 🆕 AJOUT : connexion MongoDB pour stats admin
+
 
 require_once __DIR__ . '/../../config/DatabaseMongo.php';
 
@@ -54,7 +54,7 @@ class OrderController {
         $delivery_price = round($delivery_price, 2);
 
         // =========================
-        // 🟢 INSERT SQL (EXISTANT)
+        //  INSERT SQL (EXISTANT)
         // =========================
         $this->orderModel->create(
             $user_id,
@@ -65,7 +65,7 @@ class OrderController {
         );
 
         // =========================
-        // 🟡 AJOUT MONGO (NOUVEAU)
+        //  AJOUT MONGO
         // pour stats admin dashboard
         // =========================
         $db = DatabaseMongo::connect();
@@ -73,7 +73,7 @@ class OrderController {
         $db->orders->insertOne([
             "user_id" => $user_id,
             "menu_id" => $menu_id,
-            "menu_name" => "menu_" . $menu_id, // simple pour stats
+            "menu_name" => "menu_" . $menu_id,  
             "adresse" => $adresse,
             "livraison_time" => $livraison_time,
             "distance" => $distance,

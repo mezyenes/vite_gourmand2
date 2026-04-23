@@ -47,23 +47,45 @@
 
             <div class="card-body">
 
-                <h5 class="fw-bold">🍔 <?= htmlspecialchars($order['name']) ?></h5>
+                <!-- 🍔 NOM -->
+                <h5 class="fw-bold">
+                    🍔 <?= htmlspecialchars($order['name'] ?? 'Menu inconnu') ?>
+                </h5>
 
-                <p class="mb-1">📧 <?= htmlspecialchars($order['email']) ?></p>
-                <p class="mb-1">📱 <?= htmlspecialchars($order['gsm']) ?></p>
-                <p class="mb-1">📍 <?= htmlspecialchars($order['adresse']) ?></p>
-                <p class="mb-3">⏰ <?= $order['livraison_time'] ?></p>
+                <!-- 📧 EMAIL -->
+                <p class="mb-1">
+                    📧 <?= htmlspecialchars($order['email'] ?? 'N/A') ?>
+                </p>
+
+                <!-- 📱 GSM -->
+                <p class="mb-1">
+                    📱 <?= htmlspecialchars($order['gsm'] ?? 'N/A') ?>
+                </p>
+
+                <!-- 📍 ADRESSE -->
+                <p class="mb-1">
+                    📍 <?= htmlspecialchars($order['adresse'] ?? 'N/A') ?>
+                </p>
+
+                <!-- ⏰ LIVRAISON -->
+                <p class="mb-3">
+                    ⏰ <?= htmlspecialchars($order['livraison_time'] ?? 'N/A') ?>
+                </p>
 
                 <hr>
 
                 <!-- 💶 PRIX -->
-                <p><strong>Prix menu :</strong> <?= $order['price'] ?> €</p>
-                <p><strong>Livraison :</strong> <?= $order['delivery_price'] ?> €</p>
+                <p><strong>Prix menu :</strong> <?= number_format((float)($order['price'] ?? 0), 2) ?> €</p>
+
+                <p><strong>Livraison :</strong> <?= number_format((float)($order['delivery_price'] ?? 0), 2) ?> €</p>
 
                 <p class="fs-5">
                     <strong>Total :</strong> 
                     <span class="text-success fw-bold">
-                        <?= number_format($order['price'] + $order['delivery_price'], 2) ?> €
+                        <?= number_format(
+                            (float)($order['price'] ?? 0) + (float)($order['delivery_price'] ?? 0),
+                            2
+                        ) ?> €
                     </span>
                 </p>
 
@@ -74,27 +96,30 @@
                     Statut :
                     <span class="badge 
                         <?php
-                            if ($order['status'] == 'en cours') echo 'bg-warning text-dark';
-                            elseif ($order['status'] == 'en préparation') echo 'bg-primary';
-                            elseif ($order['status'] == 'livré') echo 'bg-success';
-                            elseif ($order['status'] == 'annulé') echo 'bg-danger';
+                            $status = $order['status'] ?? 'inconnu';
+
+                            if ($status == 'en cours') echo 'bg-warning text-dark';
+                            elseif ($status == 'en préparation') echo 'bg-primary';
+                            elseif ($status == 'livré') echo 'bg-success';
+                            elseif ($status == 'annulé') echo 'bg-danger';
+                            else echo 'bg-secondary';
                         ?>
                     ">
-                        <?= $order['status'] ?>
+                        <?= htmlspecialchars($status) ?>
                     </span>
                 </p>
 
                 <!-- ACTIONS -->
-                <?php if ($order['status'] !== 'annulé' && $order['status'] !== 'livré'): ?>
+                <?php if ($status !== 'annulé' && $status !== 'livré'): ?>
 
                     <div class="d-flex flex-wrap gap-2 mt-3">
 
-                        <a href="index.php?page=updateOrderStatus&id=<?= $order['id'] ?>&status=en préparation" 
+                        <a href="index.php?page=updateOrderStatus&id=<?= (int)($order['id'] ?? 0) ?>&status=en préparation" 
                            class="btn btn-warning btn-sm">
                             🔄 Préparation
                         </a>
 
-                        <a href="index.php?page=updateOrderStatus&id=<?= $order['id'] ?>&status=livré" 
+                        <a href="index.php?page=updateOrderStatus&id=<?= (int)($order['id'] ?? 0) ?>&status=livré" 
                            class="btn btn-success btn-sm">
                             ✅ Livré
                         </a>
@@ -102,16 +127,19 @@
                     </div>
 
                     <form method="POST" action="index.php?page=cancelOrder" class="mt-3">
-                        <input type="hidden" name="id" value="<?= $order['id'] ?>">
 
-                        <input type="text" name="reason" class="form-control mb-2" placeholder="Motif annulation" required>
+                        <input type="hidden" name="id" value="<?= (int)($order['id'] ?? 0) ?>">
+
+                        <input type="text" name="reason" class="form-control mb-2"
+                               placeholder="Motif annulation" required>
 
                         <button class="btn btn-danger btn-sm w-100">
                             ❌ Annuler
                         </button>
+
                     </form>
 
-                <?php elseif ($order['status'] == 'annulé'): ?>
+                <?php elseif ($status == 'annulé'): ?>
 
                     <div class="alert alert-danger mt-3">
                         ❌ Commande annulée (modification impossible)
@@ -123,7 +151,7 @@
                         </p>
                     <?php endif; ?>
 
-                <?php elseif ($order['status'] == 'livré'): ?>
+                <?php elseif ($status == 'livré'): ?>
 
                     <div class="alert alert-success mt-3">
                         ✅ Commande livrée
