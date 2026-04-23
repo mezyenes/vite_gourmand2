@@ -2,6 +2,9 @@
 
 require_once __DIR__ . '/../models/Order.php';
 
+// 🆕 AJOUT : connexion MongoDB pour stats admin
+require_once __DIR__ . '/../config/DatabaseMongo.php';
+
 class OrderController {
 
     private $orderModel;
@@ -27,18 +30,17 @@ class OrderController {
 
         $user_id = $_SESSION['user']['id'];
 
-        // 🔥 sécurisation POST (EVITE "undefined index")
+        // 🔥 sécurisation POST
         $menu_id = $_POST['menu_id'] ?? null;
         $adresse = $_POST['adresse'] ?? null;
         $livraison_time = $_POST['livraison_time'] ?? null;
         $distance = isset($_POST['distance']) ? (float)$_POST['distance'] : 0;
 
-        // ❌ validation propre
         if (empty($menu_id) || empty($adresse) || empty($livraison_time)) {
-            die("Erreur : données manquantes (menu_id, adresse ou livraison_time vide)");
+            die("Erreur : données manquantes");
         }
 
-        // format SQL
+        // format date
         $livraison_time = str_replace('T', ' ', $livraison_time);
 
         // calcul livraison
@@ -50,7 +52,9 @@ class OrderController {
 
         $delivery_price = round($delivery_price, 2);
 
-        // INSERT DB
+        // =========================
+        // 🟢 INSERT SQL (EXISTANT)
+        // =========================
         $this->orderModel->create(
             $user_id,
             $menu_id,
@@ -59,9 +63,29 @@ class OrderController {
             $delivery_price
         );
 
-        // redirect
+        // =========================
+        // 🟡 AJOUT MONGO (NOUVEAU)
+        // pour stats admin dashboard
+        // =========================
+        $db = DatabaseMongo::connect();
+
+        $db->orders->insertOne([
+            "user_id" => $user_id,
+            "menu_id" => $menu_id,
+            "menu_name" => "menu_" . $menu_id, // simple pour stats
+            "adresse" => $adresse,
+            "livraison_time" => $livraison_time,
+            "distance" => $distance,
+            "quantity" => 1, // pour aggregation
+            "total" => $delivery_price, // pour revenue stats
+            "created_at" => date("Y-m-d H:i:s")
+        ]);
+
+        // =========================
+        // REDIRECT
+        // =========================
         header('Location: index.php?page=orderForm&menu_id=' . $menu_id . '&success=1');
-exit;
+        exit;
     }
 
     // =========================
