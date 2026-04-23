@@ -8,7 +8,9 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
     exit;
 }
 
-//  préparation données
+// =========================
+// 🟢 STRUCTURATION SAFE DATA
+// =========================
 $labels = [];
 $dataOrders = [];
 $dataRevenue = [];
@@ -16,13 +18,21 @@ $dataRevenue = [];
 $maxOrders = 0;
 $maxRevenue = 0;
 
-foreach ($ordersData as $index => $item) {
+// 🟡 index sécurisé pour éviter mismatch
+$revenueMap = [];
 
-    $labels[] = $item['_id'];
+foreach ($revenueData as $r) {
+    $revenueMap[$r['_id']] = $r['total_revenue'] ?? 0;
+}
 
-    $orders = $item['total_orders'];
-    $revenue = $revenueData[$index]['total_revenue'] ?? 0;
+foreach ($ordersData as $item) {
 
+    $menuName = $item['_id'];
+
+    $orders = $item['total_orders'] ?? 0;
+    $revenue = $revenueMap[$menuName] ?? 0;
+
+    $labels[] = $menuName;
     $dataOrders[] = $orders;
     $dataRevenue[] = $revenue;
 
@@ -33,22 +43,27 @@ foreach ($ordersData as $index => $item) {
 
 <h2 class="mb-4">📊 Dashboard Admin</h2>
 
-
+<!-- =========================
+     🟢 CARDS SUMMARY
+========================= -->
 <div class="row mb-4">
 
-<?php foreach ($ordersData as $index => $item): 
+<?php foreach ($ordersData as $item):
 
-    $orders = $item['total_orders'];
-    $revenue = $revenueData[$index]['total_revenue'] ?? 0;
+    $menuName = $item['_id'];
+
+    $orders = $item['total_orders'] ?? 0;
+    $revenue = $revenueMap[$menuName] ?? 0;
 
     $ordersPercent = $maxOrders > 0 ? ($orders / $maxOrders) * 100 : 0;
+
     $color = $ordersPercent > 70 ? 'success' : ($ordersPercent > 40 ? 'warning' : 'danger');
 ?>
 
     <div class="col-md-3 mb-3">
         <div class="card shadow border-0 p-3 h-100">
 
-            <h5 class="text-center"><?= $item['_id'] ?></h5>
+            <h5 class="text-center"><?= htmlspecialchars($menuName) ?></h5>
 
             <div class="text-center my-2">
                 <span class="badge bg-<?= $color ?>">
@@ -57,7 +72,7 @@ foreach ($ordersData as $index => $item) {
             </div>
 
             <div class="text-center text-success fw-bold">
-                💰 <?= $revenue ?> €
+                💰 <?= number_format($revenue, 2) ?> €
             </div>
 
         </div>
@@ -67,7 +82,9 @@ foreach ($ordersData as $index => $item) {
 
 </div>
 
-<!--  GRAPHIQUES -->
+<!-- =========================
+     📊 GRAPHIQUES
+========================= -->
 <div class="row">
 
     <div class="col-md-6">
@@ -90,7 +107,7 @@ foreach ($ordersData as $index => $item) {
 
 <script>
 
-//  COMMANDES
+// 📦 COMMANDES
 new Chart(document.getElementById('ordersChart'), {
     type: 'bar',
     data: {
