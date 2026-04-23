@@ -3,7 +3,8 @@
 require_once __DIR__ . '/../models/Order.php';
 
 // 🆕 AJOUT : connexion MongoDB pour stats admin
-require_once __DIR__ . '/../config/DatabaseMongo.php';
+
+require_once __DIR__ . '/../../config/DatabaseMongo.php';
 
 class OrderController {
 
